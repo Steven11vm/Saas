@@ -1,0 +1,9 @@
+# Railway/Nixpacks: backend Node.js sin paso de "build", solo install + start
+[phases.setup]
+nixPkgs = ["nodejs_20"]
+
+[phases.install]
+cmds = ["npm install"]
+
+[start]
+cmd = "node src/server.js"

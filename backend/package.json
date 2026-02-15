@@ -4,6 +4,7 @@
   "description": "API Gestión de inventarios - Portfolio",
   "main": "src/server.js",
   "type": "module",
+  "engines": { "node": ">=18" },
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch src/server.js"

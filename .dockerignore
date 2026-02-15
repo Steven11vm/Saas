@@ -1,0 +1,11 @@
+node_modules
+frontend
+.git
+.env
+*.log
+.DS_Store
+README.md
+DEPLOY.md
+backend/node_modules
+backend/uploads/*
+backend/.env

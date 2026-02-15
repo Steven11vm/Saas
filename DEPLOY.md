@@ -27,13 +27,13 @@ git push -u origin main
 
 ## 2. Desplegar el backend en Railway
 
-El backend incluye un **Dockerfile**. Railway lo detecta y usa Docker para construir y ejecutar (así se evita el error de Railpack).
+En la **raíz del repo** hay un **Dockerfile** que construye el backend. Railway lo detecta y usa Docker (así no depende de Railpack ni del Root Directory).
 
 1. Entra en [railway.app](https://railway.app) e inicia sesión (con GitHub).
 2. **New Project** → **Deploy from GitHub repo** → elige tu repositorio.
 3. En **Settings** del servicio:
-   - **Root Directory:** `backend` (obligatorio)
-   - No hace falta poner Build Command ni Start Command; el Dockerfile ya lo define.
+   - **Root Directory:** déjalo **vacío** o `./` (raíz del repo). Así Railway encuentra el Dockerfile y construye el backend.
+   - No pongas Build Command ni Start Command.
 
 4. **Variables** (pestaña Variables):
    - `NODE_ENV` = `production`

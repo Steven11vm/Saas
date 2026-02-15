@@ -25,7 +25,6 @@ import {
 } from '@mui/material';
 import { Add, Edit, Delete, Inventory2, Image as ImageIcon } from '@mui/icons-material';
 import { api, getUploadsUrl } from '../api/client';
-import { useAuth } from '../context/AuthContext';
 
 export function Inventory() {
   const [items, setItems] = useState([]);
@@ -35,14 +34,14 @@ export function Inventory() {
   const [form, setForm] = useState({ name: '', sku: '', quantity: 0, minQuantity: 0, price: 0, description: '' });
   const [imageFile, setImageFile] = useState(null);
   const [error, setError] = useState('');
-  const { isAdmin } = useAuth();
 
   const load = async () => {
     try {
       const data = await api.inventory.list();
-      setItems(data);
+      setItems(Array.isArray(data) ? data : []);
     } catch (e) {
-      setError(e.message);
+      setError(e?.message || 'Error al cargar');
+      setItems([]);
     } finally {
       setLoading(false);
     }
@@ -107,11 +106,9 @@ export function Inventory() {
         <Typography variant="h5" fontWeight={700}>
           Inventario
         </Typography>
-        {isAdmin && (
-          <Button variant="contained" startIcon={<Add />} onClick={openCreate}>
-            Nuevo producto
-          </Button>
-        )}
+        <Button variant="contained" startIcon={<Add />} onClick={openCreate}>
+          Nuevo producto
+        </Button>
       </Box>
 
       {error && (
@@ -152,16 +149,14 @@ export function Inventory() {
                     Precio: <strong>${Number(item.price).toLocaleString()}</strong>
                   </Typography>
                 </CardContent>
-                {isAdmin && (
-                  <CardActions>
-                    <Button size="small" startIcon={<Edit />} onClick={() => openEdit(item)}>
-                      Editar
-                    </Button>
-                    <Button size="small" color="error" startIcon={<Delete />} onClick={() => handleDelete(item.id)}>
-                      Eliminar
-                    </Button>
-                  </CardActions>
-                )}
+                <CardActions>
+                  <Button size="small" startIcon={<Edit />} onClick={() => openEdit(item)}>
+                    Editar
+                  </Button>
+                  <Button size="small" color="error" startIcon={<Delete />} onClick={() => handleDelete(item.id)}>
+                    Eliminar
+                  </Button>
+                </CardActions>
               </Card>
             </Grid>
           ))}
@@ -171,7 +166,7 @@ export function Inventory() {
       {items.length === 0 && !loading && (
         <Paper variant="outlined" sx={{ py: 8, textAlign: 'center' }}>
           <Inventory2 sx={{ fontSize: 64, color: 'text.disabled', mb: 1 }} />
-          <Typography color="text.secondary">No hay productos. {isAdmin && 'Añade el primero.'}</Typography>
+          <Typography color="text.secondary">No hay productos. Usa «Nuevo producto» para añadir el primero.</Typography>
         </Paper>
       )}
 

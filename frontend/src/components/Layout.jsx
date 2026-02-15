@@ -32,7 +32,7 @@ const nav = [
   { to: '/orders', label: 'Órdenes', icon: <OrdersIcon /> },
 ];
 
-export function Layout({ children }) {
+export function Layout() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorUser, setAnchorUser] = useState(null);
   const { user, logout } = useAuth();
@@ -152,7 +152,7 @@ export function Layout({ children }) {
           bgcolor: 'background.default',
         }}
       >
-        {children || <Outlet />}
+        <Outlet />
       </Box>
     </Box>
   );

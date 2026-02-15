@@ -3,6 +3,7 @@ import { Box, CircularProgress } from '@mui/material';
 import { useAuth } from './context/AuthContext';
 import { PortfolioModal } from './components/PortfolioModal';
 import { Layout } from './components/Layout';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Dashboard } from './pages/Dashboard';
@@ -23,26 +24,26 @@ function PrivateRoute({ children }) {
 
 export default function App() {
   return (
-    <>
+    <ErrorBoundary>
       <PortfolioModal />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route
-          path="/*"
+          path="/"
           element={
             <PrivateRoute>
-              <Layout>
-                <Routes>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path="/inventory" element={<Inventory />} />
-                  <Route path="/orders" element={<Orders />} />
-                </Routes>
-              </Layout>
+              <Layout />
             </PrivateRoute>
           }
-        />
+        >
+          <Route index element={<Dashboard />} />
+          <Route path="inventory" element={<Inventory />} />
+          <Route path="orders" element={<Orders />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </>
+    </ErrorBoundary>
   );
 }

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { body, param, validationResult } from 'express-validator';
 import * as inventoryController from '../controllers/inventoryController.js';
-import { authenticate, requireAdmin } from '../middleware/auth.js';
+import { authenticate } from '../middleware/auth.js';
 import { upload } from '../middleware/upload.js';
 
 const router = Router();
@@ -15,9 +15,9 @@ const validate = (req, res, next) => {
 
 router.get('/', inventoryController.list);
 router.get('/:id', param('id').notEmpty(), validate, inventoryController.getById);
+// Cualquier usuario autenticado puede crear/editar/eliminar productos (demo completo)
 router.post(
   '/',
-  requireAdmin,
   upload.single('image'),
   [
     body('name').trim().notEmpty(),
@@ -32,7 +32,6 @@ router.post(
 );
 router.put(
   '/:id',
-  requireAdmin,
   upload.single('image'),
   [
     param('id').notEmpty(),
@@ -44,6 +43,6 @@ router.put(
   validate,
   inventoryController.update
 );
-router.delete('/:id', requireAdmin, param('id').notEmpty(), validate, inventoryController.remove);
+router.delete('/:id', param('id').notEmpty(), validate, inventoryController.remove);
 
 export default router;

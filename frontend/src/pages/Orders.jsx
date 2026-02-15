@@ -43,10 +43,12 @@ export function Orders() {
   const load = async () => {
     try {
       const [o, inv] = await Promise.all([api.orders.list(), api.inventory.list()]);
-      setOrders(o);
-      setInventory(inv);
+      setOrders(Array.isArray(o) ? o : []);
+      setInventory(Array.isArray(inv) ? inv : []);
     } catch (e) {
-      setError(e.message);
+      setError(e?.message || 'Error al cargar');
+      setOrders([]);
+      setInventory([]);
     } finally {
       setLoading(false);
     }

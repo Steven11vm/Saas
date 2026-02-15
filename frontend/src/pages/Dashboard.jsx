@@ -74,11 +74,14 @@ export function Dashboard() {
       try {
         const [m, o] = await Promise.all([api.orders.metrics(), api.orders.list()]);
         if (!cancelled) {
-          setMetrics(m);
-          setOrders(o.slice(0, 8));
+          setMetrics(m && typeof m === 'object' ? m : { orders: {}, totalRevenue: 0, inventoryTotal: 0, lowStockCount: 0 });
+          setOrders(Array.isArray(o) ? o.slice(0, 8) : []);
         }
       } catch {
-        if (!cancelled) setMetrics({ orders: {}, totalRevenue: 0, inventoryTotal: 0, lowStockCount: 0 });
+        if (!cancelled) {
+          setMetrics({ orders: {}, totalRevenue: 0, inventoryTotal: 0, lowStockCount: 0 });
+          setOrders([]);
+        }
       } finally {
         if (!cancelled) setLoading(false);
       }

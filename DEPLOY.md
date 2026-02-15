@@ -27,13 +27,13 @@ git push -u origin main
 
 ## 2. Desplegar el backend en Railway
 
+El backend incluye un **Dockerfile**. Railway lo detecta y usa Docker para construir y ejecutar (así se evita el error de Railpack).
+
 1. Entra en [railway.app](https://railway.app) e inicia sesión (con GitHub).
 2. **New Project** → **Deploy from GitHub repo** → elige tu repositorio.
 3. En **Settings** del servicio:
-   - **Root Directory:** `backend`
-   - **Build Command:** (vacío o `npm install`)
-   - **Start Command:** `npm start` o `node src/server.js`
-   - **Watch Paths:** `backend` (opcional)
+   - **Root Directory:** `backend` (obligatorio)
+   - No hace falta poner Build Command ni Start Command; el Dockerfile ya lo define.
 
 4. **Variables** (pestaña Variables):
    - `NODE_ENV` = `production`
@@ -52,16 +52,10 @@ git push -u origin main
 
 1. Entra en [vercel.com](https://vercel.com) e inicia sesión (con GitHub).
 2. **Add New** → **Project** → importa el mismo repositorio de GitHub.
-3. Configura el proyecto:
-   - **Root Directory:** `frontend` (clic en **Edit** y pon `frontend`).
-   - **Framework Preset:** Vite (debería detectarse solo).
-   - **Build Command:** `npm run build`
-   - **Output Directory:** `dist`
-
+3. **No cambies el Root Directory** — déjalo vacío (raíz del repo). El `vercel.json` en la raíz ya indica cómo construir y servir el frontend.
 4. **Environment Variables** (antes de desplegar):
    - Nombre: `VITE_API_URL`  
    - Valor: **la URL del backend en Railway** (sin barra final). Ejemplo: `https://tu-proyecto.up.railway.app`
-
 5. **Deploy.** Vercel te dará una URL como `https://tu-proyecto.vercel.app`.
 
 ---

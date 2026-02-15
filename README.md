@@ -43,8 +43,12 @@ App en `http://localhost:5173`. El proxy de Vite redirige `/api` y `/uploads` al
 - **Admin:** puede crear/editar/eliminar productos en Inventario y cambiar estado de órdenes.
 - **Empleado:** puede ver inventario y crear/ver órdenes.
 
-## Deploy
+## Deploy (Vercel + Railway)
 
-- Backend: Railway, Render o VPS (Node, sin DB).
-- Frontend: Vite build → estático en Vercel/Netlify o mismo servidor. Configurar `CLIENT_URL` y CORS con la URL del front en producción.
+Para tener el proyecto visible en tu portafolio:
+
+1. **Frontend en Vercel** (el que verá la gente).
+2. **Backend en Railway** (gratis; la API y los datos en memoria).
+
+Guía paso a paso: **[DEPLOY.md](./DEPLOY.md)**.
 # Saas
